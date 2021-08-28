@@ -1,9 +1,8 @@
 package com.allcodesnick.bookloanrestapi.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
-
+import java.util.List;
 
 
 @Data
@@ -27,4 +26,8 @@ public class Book {
     private String author;
 
     private String category;
+
+    @ManyToMany(mappedBy = "shoppingCart")
+    private static List<Borrower> borrowers ;
+
 }

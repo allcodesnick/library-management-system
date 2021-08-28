@@ -2,9 +2,9 @@ package com.allcodesnick.bookloanrestapi.controller;
 
 
 import com.allcodesnick.bookloanrestapi.model.Book;
-import com.allcodesnick.bookloanrestapi.model.Borrower;
 import com.allcodesnick.bookloanrestapi.service.BookService;
-import com.allcodesnick.bookloanrestapi.service.impl.BookServiceImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,16 +54,17 @@ public class BookController {
     Delete REST EndPoints
      */
     @DeleteMapping("/delete/{id}")
-    public String deleteBook(@PathVariable Long id){
-        return bookService.deleteBook(id);
+    public ResponseEntity<String> deleteBook(@PathVariable Long id){
+        bookService.deleteBook(id);
+        return new ResponseEntity<String>("Book Deleted", HttpStatus.OK);
     }
 
     /*
     Update REST EndPoints
      */
-    @PutMapping("/update")
-    public Book updateBook(@RequestBody Book book){
-        return bookService.updateBook(book);
+    @PutMapping("/update/{id}")
+    public Book updateBook(@RequestBody Book book, @PathVariable Long id){
+        return bookService.updateBook(book, id);
     }
 
 }

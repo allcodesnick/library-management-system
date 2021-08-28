@@ -1,10 +1,11 @@
 package com.allcodesnick.bookloanrestapi.controller;
 
 
-import com.allcodesnick.bookloanrestapi.model.Book;
 import com.allcodesnick.bookloanrestapi.model.Borrower;
 import com.allcodesnick.bookloanrestapi.service.BookService;
 import com.allcodesnick.bookloanrestapi.service.BorrowerService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,8 +42,8 @@ public class BorrowerController {
     /*
     Get RestEndPoints
      */
-    @GetMapping("/list_all")
-    public List<Borrower> getListOfBorrowers(){
+    @GetMapping("list_all")
+    public List<Borrower> getBorrowerList(){
         return borrowerService.getListOfBorrowers();
     }
 
@@ -58,17 +59,18 @@ public class BorrowerController {
     /*
     Put RestEndPoints
      */
-    @PutMapping("/update")
-    public Borrower updateBorrower(@RequestBody Borrower borrower){
-        return borrowerService.updateBorrower(borrower);
+    @PutMapping("/update/{id}")
+    public Borrower updateBorrower(@RequestBody Borrower borrower, @PathVariable Long id){
+        return borrowerService.updateBorrower(borrower, id);
     }
 
     /*
     Delete RestEndPoints
      */
     @DeleteMapping("/delete/{id}")
-    public String deleteBorrower(@PathVariable Long id){
-        return borrowerService.deleteBorrower(id);
+    public ResponseEntity<String> deleteBorrower(@PathVariable Long id){
+        borrowerService.deleteBorrower(id);
+        return new ResponseEntity<String>("Borrower Account Deleted", HttpStatus.OK);
     }
 
     @DeleteMapping("/cart/delete/{borrowerId}/book/{bookId}")

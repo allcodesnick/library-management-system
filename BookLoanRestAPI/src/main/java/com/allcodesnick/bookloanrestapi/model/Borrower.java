@@ -1,7 +1,6 @@
 package com.allcodesnick.bookloanrestapi.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -26,7 +25,10 @@ public class Borrower {
     @Column(nullable = false)
     private String phoneNo;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "shoppingCart",
+            joinColumns = @JoinColumn(name = "borrower_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
     private Set<Book> shoppingCart;
 
     // Add Book to shopping Cart

@@ -1,5 +1,6 @@
 package com.allcodesnick.bookloanrestapi.service.impl;
 
+import com.allcodesnick.bookloanrestapi.exception.ResourceNotFoundException;
 import com.allcodesnick.bookloanrestapi.model.Book;
 import com.allcodesnick.bookloanrestapi.model.Borrower;
 import com.allcodesnick.bookloanrestapi.repository.BorrowerRepository;
@@ -31,15 +32,17 @@ public class BorrowerServiceImpl implements BorrowerService {
     /*
     Get Methods
      */
+
     @Override
-    public List<Borrower> getListOfBorrowers(){
+    public List<Borrower> getListOfBorrowers() {
         return borrowerRepository.findAll();
     }
 
     @Override
     public Borrower getBorrowerById(Long id){
-        return borrowerRepository.findById(id).orElse(null);
+        return borrowerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Borrower", "Id", id));
     }
+
     @Override
     public Borrower getBorrowerByEmail(String email){
         return borrowerRepository.findByEmail(email);
@@ -48,16 +51,16 @@ public class BorrowerServiceImpl implements BorrowerService {
     Delete Methods
      */
     @Override
-    public String deleteBorrower(Long id){
+    public void deleteBorrower(Long id){
+        borrowerRepository.findById(id);
         borrowerRepository.deleteById(id);
-        return "Borrower Removed! Id: " + id;
     }
     /*
     Update Methods
      */
     @Override
-    public Borrower updateBorrower(Borrower borrower){
-        Borrower existingBorrower = borrowerRepository.findById(borrower.getId()).orElse(null);
+    public Borrower updateBorrower(Borrower borrower, Long id){
+        Borrower existingBorrower = borrowerRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Borrower", "Id", id));
         existingBorrower.setFirstName(borrower.getFirstName());
         existingBorrower.setLastName(borrower.getLastName());
         existingBorrower.setEmail(borrower.getEmail());

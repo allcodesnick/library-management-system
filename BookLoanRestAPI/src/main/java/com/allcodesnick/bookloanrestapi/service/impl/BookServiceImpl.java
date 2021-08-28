@@ -1,5 +1,6 @@
 package com.allcodesnick.bookloanrestapi.service.impl;
 
+import com.allcodesnick.bookloanrestapi.exception.ResourceNotFoundException;
 import com.allcodesnick.bookloanrestapi.model.Book;
 import com.allcodesnick.bookloanrestapi.repository.BookRepository;
 import com.allcodesnick.bookloanrestapi.service.BookService;
@@ -37,7 +38,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookById(Long id) {
-        return bookRepository.findById(id).orElse(null);
+        return bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "Id", id));
     }
 
     @Override
@@ -54,17 +55,17 @@ public class BookServiceImpl implements BookService {
     Delete Methods
      */
     @Override
-    public String deleteBook(Long id) {
+    public void deleteBook(Long id) {
+        bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "Id", id));
         bookRepository.deleteById(id);
-        return "Book Removed! Id: " + id;
     }
 
     /*
     Update Methods
      */
     @Override
-    public Book updateBook(Book book) {
-        Book existingBook = bookRepository.findById(book.getId()).orElse(null);
+    public Book updateBook(Book book, Long id) {
+        Book existingBook = bookRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Book", "Id", id));
         existingBook.setTitle(book.getTitle());
         existingBook.setIsbn(book.getIsbn());
         existingBook.setThumbnailUrl(book.getThumbnailUrl());
@@ -72,5 +73,4 @@ public class BookServiceImpl implements BookService {
         existingBook.setCategory(book.getCategory());
         return bookRepository.save(existingBook);
     }
-
 }

@@ -1,6 +1,5 @@
 package com.allcodesnick.bookloanrestapi.service;
 
-import com.allcodesnick.bookloanrestapi.model.Book;
 import com.allcodesnick.bookloanrestapi.model.Borrower;
 
 import java.util.List;
@@ -15,9 +14,9 @@ public interface BorrowerService {
 
     Borrower getBorrowerByEmail(String email);
 
-    String deleteBorrower(Long id);
+    void deleteBorrower(Long id);
 
-    Borrower updateBorrower(Borrower borrower);
+    Borrower updateBorrower(Borrower borrower, Long id);
 
     Borrower addBookToShoppingCart(Long borrowerId, Long bookId);
 
