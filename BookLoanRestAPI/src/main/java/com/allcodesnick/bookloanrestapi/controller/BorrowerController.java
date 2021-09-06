@@ -17,8 +17,7 @@ public class BorrowerController {
     private BorrowerService borrowerService;
     private BookService bookService;
 
-    public BorrowerController(BorrowerService borrowerService, BookService bookService
-    ) {
+    public BorrowerController(BorrowerService borrowerService, BookService bookService) {
         super();
         this.borrowerService = borrowerService;
         this.bookService = bookService;
@@ -74,7 +73,9 @@ public class BorrowerController {
     }
 
     @DeleteMapping("/cart/delete/{borrowerId}/book/{bookId}")
-    public Borrower removeBookFromShoppingCart(@PathVariable Long bookId, @PathVariable Long borrowerId){
-        return borrowerService.removeBookFromShoppingCart(borrowerId, bookId);
+    public ResponseEntity<String> removeBookFromShoppingCart(@PathVariable Long bookId, @PathVariable Long borrowerId){
+        borrowerService.removeBookFromShoppingCart(borrowerId, bookId);
+        return new ResponseEntity<String>("Book had been Deleted from Shopping Cart", HttpStatus.OK);
     }
+
 }

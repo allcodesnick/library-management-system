@@ -1,5 +1,6 @@
 package com.allcodesnick.bookloanrestapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
@@ -27,7 +28,8 @@ public class Book {
 
     private String category;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "shoppingCart")
-    private static List<Borrower> borrowers ;
+    private List<Borrower> borrowers ;
 
 }
