@@ -1,1 +1,2 @@
-# library-management-system
+# Library Management System
+RESTFul web service
